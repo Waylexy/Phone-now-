@@ -1,144 +1,165 @@
---Data Information
-select 
+--1# Data Information
+SELECT 
   * 
-from 
-  churn
+FROM 
+  phone;
   
-  --Number of customers
-Select 
-  count(
-    distinct(customerID)
+  --2#Number of customers
+SELECT 
+  COUNT(
+    DISTINCT(customerID)
   ) 
-from 
-  churn 
+FROM 
+  phone; 
   
-  --Count of gender
-Select 
+  --3#Count of gender
+SELECT 
   gender, 
-  count(gender) as no_of_gender 
-from 
-  churn 
-group by 
-  gender 
+  COUNT(gender) AS no_of_gender 
+FROM 
+  phone 
+GROUP BY 
+  gender; 
   
-  --Number of customers by contract
-select 
+  --4#Number of customers by contract
+SELECT 
   contract, 
-  count(Contract) as total 
-from 
-  churn 
-group by 
-  contract 
+  COUNT(customerID) AS total 
+FROM 
+  phone 
+GROUP BY 
+  Contract;
+
+  --5# Most prefered payment method
+SELECT 
+	paymentmethod, 
+	COUNT(
+		PaymentMethod) AS Most_preferred_method 
+FROM 
+	phone
+  GROUP BY 
+	PaymentMethod
+  ORDER BY
+	Most_preferred_method 
+  DESC;
   
-  --Monthly and total charges by Contract
-select 
+  --6#Monthly and total charges by Contract
+SELECT 
   contract, 
-  round(
-    sum(MonthlyCharges), 
+  ROUND(
+    SUM(MonthlyCharges), 
     2
-  ) as Monthly_charges, 
-  round(
-    sum(TotalCharges), 
+  ) AS Monthly_charges, 
+  ROUND(
+    SUM(TotalCharges), 
     2
-  ) as Total_charges 
-from 
-  churn 
-group by 
+  ) AS Total_charges 
+FROM 
+  phone 
+GROUP BY 
   contract 
-order by 
-  Monthly_charges 
+ORDER BY 
+  Monthly_charges; 
   
-  --Monthly and total charges by internet service
-select 
+  --7#Monthly and total charges by internet service
+SELECT 
   internetservice, 
-  round(
-    sum(MonthlyCharges), 
+  ROUND(
+    SUM(MonthlyCharges), 
     2
-  ) as Monthly_charges, 
-  round(
-    sum(TotalCharges), 
+  ) AS Monthly_charges, 
+  ROUND(
+    SUM(TotalCharges), 
     2
-  ) as Total_charges 
-from 
-  churn 
-group by 
+  ) AS Total_charges 
+FROM 
+  phone 
+GROUP BY 
   internetservice 
-order by 
-  Monthly_charges 
+ORDER BY 
+  Monthly_charges; 
   
-  --Top 10 Existing customer for rewards
-select 
-  Top 10 customerID, 
+  --8#Top 10 Existing customer for rewards
+SELECT 
+  TOP 10 customerID, 
   gender, 
-  round(TotalCharges, 0) as TotalCharges 
-from 
-  churn 
-where 
+  ROUND(TotalCharges, 0) AS TotalCharges 
+FROM 
+  phone 
+WHERE 
   churn <> 'Yes' 
-order by 
-  TotalCharges desc 
+ORDER BY 
+  TotalCharges DESC; 
   
-  --Customer level of loyalty
-select 
+  --9#Customer level of loyalty
+SELECT 
   customerID, 
   gender, 
   Tenure, 
   contract, 
   internetservice, 
-  case When(tenure <= 20) Then 'Regular' 
-  when(tenure between 21 
-    and 40) then 'Premium' 
-  Else 'Platinum' 
-  end as Customer_level 
-from 
-  churn 
-where 
-  churn = 'No' 
+  CASE 
+  WHEN(tenure <= 20) THEN 'Regular' 
+  WHEN(tenure between 21 and 40) then 'Premium' 
+  ELSE 'Platinum' 
+  END AS Customer_loyalty_level 
+FROM 
+  phone 
+WHERE 
+  churn = 'No'; 
   
-  --Number of churn
-select 
-  count(Churn) as churn 
-from 
-  churn 
-where 
-  churn = 'Yes'
+  --Section two Churn analysis
+
+  --1#Number of churn
+SELECT 
+  COUNT(Churn) AS churn_Customers 
+FROM 
+  phone 
+WHERE 
+  churn = 'Yes';
   
-  --Total charges and monthly charges by churn customers
-select 
-  sum(monthlycharges) as Monthly_charges, 
-  sum(totalcharges) as Total_charges 
-from 
-  churn 
-where 
-  churn = 'Yes' 
+  --2#Total charges and monthly charges by churn customers
+SELECT 
+  ROUND(
+	SUM(monthlycharges),2) 
+  AS Monthly_charges, 
+  ROUND(
+	SUM(totalcharges),2) 
+  AS Total_charges 
+FROM 
+  phone 
+WHERE 
+  churn = 'Yes'; 
   
-  --Churn customers internet service
-select 
+  --3#Churn customers internet service
+SELECT 
   internetservice, 
-  round(
-    sum(MonthlyCharges), 
+  ROUND(
+    SUM(MonthlyCharges), 
     2
-  ) as Monthly_charges, 
-  round(
-    sum(TotalCharges), 
+  ) AS Monthly_charges, 
+  ROUND(
+    SUM(TotalCharges), 
     2
-  ) as Total_charges 
-from 
-  churn 
-where 
+  ) AS Total_charges 
+FROM 
+  phone 
+WHERE 
   churn = 'Yes' 
-group by 
+GROUP BY 
   internetservice 
-order by 
-  Monthly_charges 
+ORDER BY 
+  Monthly_charges; 
   
-  --churn customers contract
-select 
+  --4#churn customers contract
+SELECT 
   contract, 
-  count(Contract) 
-from 
-  churn 
-where 
+  COUNT(Contract) 
+FROM 
+  phone 
+WHERE 
   churn = 'Yes' 
-group by 
-  contract
+GROUP BY 
+  contract;
+
+  
